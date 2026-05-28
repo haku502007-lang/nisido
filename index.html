@@ -3,20 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>地図タイル表示テスト</title>
+<title>第7系タイル表示テスト</title>
 
+<!-- Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<!-- proj4 + proj4leaflet -->
+<script src="https://unpkg.com/proj4@2.9.0/dist/proj4.js"></script>
+<script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
+
 <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-  #map {
-    width: 100%;
-    height: 100%;
-  }
+  html, body { height: 100%; margin: 0; }
+  #map { width: 100%; height: 100%; }
 </style>
 </head>
 
@@ -24,15 +23,28 @@
 <div id="map"></div>
 
 <script>
-// ★ GitHub Pages の tiles が 5〜18 なので、それに合わせる
+// ★ 第7系（EPSG:6677）の定義
+const crs7 = new L.Proj.CRS(
+  'EPSG:6677',
+  '+proj=tmerc +lat_0=36 +lon_0=136 +k=0.9999 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs',
+  {
+    resolutions: [
+      8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1
+    ],
+    origin: [0, 0]
+  }
+);
+
+// ★ 地図の初期設定（第7系タイル範囲に合わせる）
 const map = L.map('map', {
-  center: [35.0, 135.0],  // 初期位置（必要なら変更OK）
-  zoom: 10,
+  crs: crs7,
+  center: [35.25, 137.0],  // 中部地方中心
+  zoom: 12,
   minZoom: 5,
   maxZoom: 18
 });
 
-// ★ GitHub Pages では相対パスが不安定 → 絶対パスに変更
+// ★ GitHub Pages のタイルURL
 L.tileLayer('https://haku502007-lang.github.io/nisido/tiles/{z}/{x}/{y}.png', {
   minZoom: 5,
   maxZoom: 18,
