@@ -24,7 +24,7 @@
 <div id="map"></div>
 
 <script>
-// ★ GitHub の tiles が 5〜18 なので、それに合わせる
+// ★ GitHub Pages の tiles が 5〜18 なので、それに合わせる
 const map = L.map('map', {
   center: [35.0, 135.0],  // 初期位置（必要なら変更OK）
   zoom: 10,
@@ -32,8 +32,8 @@ const map = L.map('map', {
   maxZoom: 18
 });
 
-// ★ GitHub Pages の tiles パスに完全一致
-L.tileLayer('./tiles/{z}/{x}/{y}.png', {
+// ★ GitHub Pages では相対パスが不安定 → 絶対パスに変更
+L.tileLayer('https://haku502007-lang.github.io/nisido/tiles/{z}/{x}/{y}.png', {
   minZoom: 5,
   maxZoom: 18,
   attribution: '© Your Tiles'
