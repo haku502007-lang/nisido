@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>地図タイル表示テスト</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地図タイル表示テスト</title>
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        #map {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+</style>
 </head>
 
 <body>
-    <div id="map"></div>
+<div id="map"></div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ★ GitHub の tiles が 5〜18 なので、それに合わせる
+const map = L.map('map', {
+  center: [35.0, 135.0],  // 初期位置（必要なら変更OK）
+  zoom: 10,
+  minZoom: 5,
+  maxZoom: 18
+});
 
-    <script>
-        // ★ GitHub Pages 用タイルURL（正しい書式）
-        var tileUrl = "https://haku502007-lang.github.io/nisido/tiles/{z}/{x}/{y}.png";
+// ★ GitHub Pages の tiles パスに完全一致
+L.tileLayer('./tiles/{z}/{x}/{y}.png', {
+  minZoom: 5,
+  maxZoom: 18,
+  attribution: '© Your Tiles'
+}).addTo(map);
+</script>
 
-        // 地図の初期位置（適当に日本の中心）
-        var map = L.map('map').setView([35.0, 135.0], 12);
-
-        // タイルレイヤー追加
-        L.tileLayer(tileUrl, {
-            maxZoom: 18,
-            minZoom: 5,
-            attribution: "Custom Tiles"
-        }).addTo(map);
-    </script>
 </body>
 </html>
